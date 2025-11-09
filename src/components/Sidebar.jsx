@@ -1,4 +1,4 @@
-// src/components/Sidebar.jsx - COMPLETE WITH HAMBURGER MENU
+// src/components/Sidebar.jsx - COMPLETE WITH HAMBURGER MENU AND ALL THEMES
 import React, { useState, useEffect, useCallback, useRef, useContext } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { SocketContext } from '../contexts/SocketContext';
@@ -26,6 +26,9 @@ const Sidebar = ({ users, selectedUser, onSelectUser, messagesMap = {}, lastMess
   // NEW: Hamburger menu state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
+  // NEW: Theme selector state
+  const [showThemeSelector, setShowThemeSelector] = useState(false);
+  
   const unreadCountsRef = useRef({});
   const [localUnreadCounts, setLocalUnreadCounts] = useState({});
   const currentChatUserIdRef = useRef(null);
@@ -37,6 +40,19 @@ const Sidebar = ({ users, selectedUser, onSelectUser, messagesMap = {}, lastMess
       setIsMobileMenuOpen(false);
     }
   }, [selectedUser]);
+
+
+  // ==================== NEW: Close theme selector when clicking outside ====================
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showThemeSelector && !event.target.closest('.theme-selector-wrapper')) {
+        setShowThemeSelector(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showThemeSelector]);
 
 
   // ==================== NEW: Close menu on window resize ====================
@@ -343,7 +359,7 @@ const Sidebar = ({ users, selectedUser, onSelectUser, messagesMap = {}, lastMess
   }, [socket, user, chatRequests.received]);
 
 
-  // ==================== EXISTING THEME LOGIC (PRESERVED) ====================
+  // ==================== EXISTING THEME LOGIC (UPDATED) ====================
 
 
   // Update theme
@@ -354,8 +370,22 @@ const Sidebar = ({ users, selectedUser, onSelectUser, messagesMap = {}, lastMess
 
 
   const handleThemeToggle = () => {
-    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+    setShowThemeSelector(!showThemeSelector);
   };
+
+  const handleThemeChange = (newTheme) => {
+    setTheme(newTheme);
+    setShowThemeSelector(false);
+  };
+
+  const themes = [
+    { id: 'light', name: 'Light', icon: '☀️' },
+    { id: 'dark', name: 'Dark', icon: '🌙' },
+    { id: 'midnight', name: 'Midnight', icon: '🌌' },
+    { id: 'ocean', name: 'Ocean', icon: '🌊' },
+    { id: 'sunset', name: 'Sunset', icon: '🌅' },
+    { id: 'forest', name: 'Forest', icon: '🌲' }
+  ];
 
 
   // ==================== EXISTING HELPER FUNCTIONS (PRESERVED) ====================
@@ -460,7 +490,7 @@ const Sidebar = ({ users, selectedUser, onSelectUser, messagesMap = {}, lastMess
   });
 
 
-  // ==================== RENDER (UPDATED WITH HAMBURGER MENU) ====================
+  // ==================== RENDER (UPDATED WITH HAMBURGER MENU AND THEME SELECTOR) ====================
 
 
   return (
@@ -663,13 +693,30 @@ const Sidebar = ({ users, selectedUser, onSelectUser, messagesMap = {}, lastMess
               >
                 <Settings size={16} />
               </button>
-              <button
-                onClick={handleThemeToggle}
-                className="profile-action-button"
-                title="Toggle Theme"
-              >
-                {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
-              </button>
+              <div className="theme-selector-wrapper">
+                <button
+                  onClick={handleThemeToggle}
+                  className="profile-action-button"
+                  title="Change Theme"
+                >
+                  {theme === 'light' ? <Sun size={16} /> : <Moon size={16} />}
+                </button>
+                {showThemeSelector && (
+                  <div className="theme-dropdown">
+                    {themes.map((t) => (
+                      <button
+                        key={t.id}
+                        className={`theme-option ${theme === t.id ? 'active' : ''}`}
+                        onClick={() => handleThemeChange(t.id)}
+                      >
+                        <span className="theme-icon">{t.icon}</span>
+                        <span className="theme-name">{t.name}</span>
+                        {theme === t.id && <span className="theme-checkmark">✓</span>}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
               <button
                 onClick={logout}
                 className="profile-action-button logout"

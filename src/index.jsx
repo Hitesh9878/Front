@@ -1,10 +1,11 @@
+import './styles.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 // ⚠️ CRITICAL: Import global styles FIRST before any components
-import './styles.css';
+
 
 // Import contexts
 import { AuthProvider } from './contexts/AuthContext.jsx';

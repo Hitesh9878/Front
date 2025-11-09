@@ -1,7 +1,23 @@
 /* ============================================
-   CRITICAL: Import fonts FIRST
+   CRITICAL: Load fonts inline to prevent CORS issues
    ============================================ */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+/* ============================================
+   IMPORT COMPONENT STYLES - FIXED PATHS
+   Note: These paths are relative to src/styles.css
+   ============================================ */
+@import './components/ChatLayout.css';
+@import './components/ChatWindow.css';
+@import './components/MessageBubble.css';
+@import './components/MessageInput.css';
+@import './components/Sidebar.css';
+@import './components/LoginPage.css';
+@import './components/ChatRequestModal.css';
+@import './components/ProfileModal.css';
+@import './components/TypingIndicator.css';
+@import './components/UserSearchModal.css';
+@import './components/BlockedUsersModal.css';
 
 /* ============================================
    ROOT VARIABLES - MUST BE DEFINED FIRST
@@ -71,6 +87,9 @@
   --z-modal: 10000;
   --z-toast: 9999;
   --z-emoji-picker: 10001;
+
+  /* CRITICAL: Background pattern - inline base64 */
+  --chat-bg-pattern: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iYSIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9IiNlNWRkZDUiLz48cGF0aCBkPSJNMCAzOHEwLTUgLjV0LjUtNSAuNS01IC41LTVxMC01IC41dC41LTUgLjUtNSAuNS01cTAtNSAuNXQu NS01IC41LTUgLjUtNXEwLTUgLjV0LjUtNSAuNS01IC41LTVxMC01IC41dC41LTUgLjUtNSAuNS01cTAtNSAuNXQu NS01IC41LTUgLjUtNXEwLTUgLjV0LjUtNSAuNS01IC41LTVxMC01IC41dC41LTUgLjUtNSAuNS01eiIgZmlsbD0iI2RkZDRjZCIgZmlsbC1vcGFjaXR5PSIuMiIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNhKSIvPjwvc3ZnPg==');
 }
 
 /* ============================================
@@ -590,11 +609,13 @@ html[data-theme] {
 }
 
 /* ============================================
-   CRITICAL: BG IMAGE FOR CHAT WINDOW
+   CRITICAL: CHAT WINDOW BACKGROUND
+   Use CSS variable for fallback pattern
    ============================================ */
 .chat-window-container {
-  background-image: url('/Gemini_Generated_Image_ia02emia02emia02.png');
+  background-image: var(--chat-bg-pattern);
   background-repeat: repeat;
-  background-size: auto;
+  background-size: 400px 400px;
   background-color: var(--chat-background-color);
+  background-attachment: fixed;
 }

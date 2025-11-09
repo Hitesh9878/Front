@@ -1021,6 +1021,7 @@
   --hover-color: #d7f0e3;
   
   --text-color-primary: #1
+}
   /* ==================== TOAST NOTIFICATION STYLES - ULTRA RESPONSIVE ==================== */
 
 /* Base toast container */
@@ -1575,4 +1576,174 @@
   .Toastify__toast-container {
     display: none !important;
   }
+}
+/* ========== SIDEBAR PROFILE ========== */
+.sidebar-profile {
+  padding: 1rem 0 0;
+  border-top: 1px solid var(--border-color);
+  margin-top: 1rem;
+  flex-shrink: 0;
+}
+
+.profile-main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-avatar-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.profile-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary-color);
+  transition: border-color var(--transition-speed), transform 0.2s ease;
+}
+
+.profile-avatar:hover {
+  border-color: var(--primary-color-hover);
+  transform: scale(1.05);
+}
+
+.profile-status-indicator {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--sidebar-background-color);
+  background-color: var(--online-indicator-color);
+  box-shadow: 0 0 4px var(--online-indicator-color);
+}
+
+.profile-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-name {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-color-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-status {
+  margin: 0.2rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-color-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.profile-action-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  color: var(--text-color-secondary);
+  border-radius: 50%;
+  transition: all var(--transition-speed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-action-button:hover {
+  color: var(--text-color-primary);
+  background-color: var(--card-background-color);
+  transform: scale(1.1);
+}
+
+.profile-action-button.logout:hover {
+  color: var(--notification-badge-color);
+  background-color: rgba(250, 56, 62, 0.1);
+}
+
+/* ========== THEME SELECTOR DROPDOWN ========== */
+.theme-selector-wrapper {
+  position: relative;
+}
+
+.theme-dropdown {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  background-color: var(--sidebar-background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  padding: 8px;
+  min-width: 180px;
+  z-index: 1000;
+  animation: dropdownSlideUp 0.2s ease;
+}
+
+@keyframes dropdownSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.theme-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-color-primary);
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.theme-option:hover {
+  background-color: var(--hover-color);
+  transform: translateX(4px);
+}
+
+.theme-option.active {
+  background-color: var(--primary-color-light);
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.theme-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.theme-name {
+  flex: 1;
+  text-align: left;
+}
+
+.theme-checkmark {
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 1rem;
 }
